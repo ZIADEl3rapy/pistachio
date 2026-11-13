@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fafafa" id="theme-color" />
+
+    <!-- Apply the stored theme before the first paint. This is the no-FOUC guard. -->
+    <script>
+      (() => {
+        try {
+          const stored = localStorage.getItem('pistachio-theme');
+          const preferred = stored === 'light' || stored === 'dark'
+            ? stored
+            : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.dataset.theme = preferred;
+          document.documentElement.style.colorScheme = preferred;
+          document.getElementById('theme-color').setAttribute(
+            'content',
+            preferred === 'dark' ? '#1a1d1a' : '#fafafa',
+          );
+        } catch {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
+
+    <!-- Apply the stored language before the first paint, alongside the theme. -->
+    <script>
+      (() => {
+        try {
+          const lang = localStorage.getItem('pistachio-lang');
+          if (lang === 'ar' || lang === 'en') {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+          }
+        } catch {
+          /* keep the English defaults */
+        }
+      })();
+    </script>
+
+    <!-- Paints the correct page colour while the main stylesheet is loading. -->
+    <style>
+      html { background-color: #f5f1e7; color-scheme: light; }
+      html[data-theme='dark'] { background-color: #11150f; color-scheme: dark; }
+      body { margin: 0; }
+    </style>
+
+    <title>Pistachio — Patisserie & Kitchen</title>
+    <meta
+      name="description"
+      content="Pastries, cakes and coffee in Salmiya. Order online for delivery or pickup."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- LCP image and above-the-fold self-hosted variable fonts. -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/avif"
+      href="/images/hero/hero-croissants-640.avif"
+      imagesrcset="/images/hero/hero-croissants-640.avif 640w, /images/hero/hero-croissants-960.avif 960w, /images/hero/hero-croissants-1280.avif 1280w"
+      imagesizes="(max-width: 760px) calc(100vw - 2.5rem), (max-width: 1100px) 42vw, 560px"
+      fetchpriority="high"
+    />
+    <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Pistachio Patisserie & Kitchen" />
+    <meta property="og:title" content="Pistachio — Baked today. Order in minutes." />
+    <meta
+      property="og:description"
+      content="Pastries, cakes and coffee in Salmiya. Delivery or pickup."
+    />
+    <meta property="og:image" content="https://pistachio.example/images/story/story-cafe-1100.jpg" />
+    <meta property="og:image:alt" content="Friends sharing coffees around a cafe table." />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "Pistachio Patisserie & Kitchen",
+        "description": "A patisserie in Salmiya serving pastries, cakes and specialty coffee.",
+        "servesCuisine": ["Bakery", "Cafe", "Desserts", "Coffee"],
+        "priceRange": "KD",
+        "currenciesAccepted": "KWD",
+        "paymentAccepted": "Cash, Card",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Salmiya",
+          "addressCountry": "KW"
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "opens": "07:00",
+          "closes": "23:00"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">
+      <span class="skip-link__en">Skip to content</span>
+      <span class="skip-link__ar" lang="ar">تخطي إلى المحتوى</span>
+    </a>
+    <div id="root"></div>
+    <noscript>
+      <p style="padding: 2rem; font-family: sans-serif">
+        Pistachio needs JavaScript enabled to take online orders. Please enable JavaScript or visit us in Salmiya.
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

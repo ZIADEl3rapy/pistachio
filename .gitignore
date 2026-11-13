@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.vite/
+*.local
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+
+# Source photography is build-time only; only optimized public/images assets ship.
+sources/screenshots/
